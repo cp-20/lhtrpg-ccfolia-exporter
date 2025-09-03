@@ -17,8 +17,9 @@ jobs:
 
       - name: build
         run: bun build index.html --outdir dist
+
       - name: Upload artifacts
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v4
         with:
           path: dist
 
