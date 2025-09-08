@@ -1,4 +1,5 @@
 import { convert } from "./convert";
+import { exportMap, initializeMap } from "./map";
 
 const form = document.querySelector<HTMLFormElement>("#input-form");
 if (!form) throw new Error("フォームが見つかりません");
@@ -36,4 +37,27 @@ form.addEventListener("submit", async (e) => {
   const converted = await convert(characterId);
 
   output.value = converted;
+});
+
+// ----------------------------------------
+
+const mapSizeInput = document.querySelector<HTMLInputElement>("#map-size");
+if (!mapSizeInput) throw new Error("マップサイズ入力が見つかりません");
+
+initializeMap(Number(mapSizeInput.value) ?? 8);
+
+mapSizeInput.addEventListener("change", () => {
+  const size = Number(mapSizeInput.value);
+  if (isNaN(size) || size <= 0 || size > 100) return;
+
+  initializeMap(size);
+});
+
+const exportButton = document.querySelector<HTMLButtonElement>(
+  "#generate-map",
+);
+if (!exportButton) throw new Error("エクスポートボタンが見つかりません");
+
+exportButton.addEventListener("click", () => {
+  exportMap();
 });
