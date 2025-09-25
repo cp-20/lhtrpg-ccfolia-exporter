@@ -33,6 +33,15 @@ type Character = {
   commands: string;
   owner: string | null;
 };
+
+// 2D+6 -> 2LH+6
+const diceToBCDice = (diceStr: string) => {
+  const match = diceStr.match(/^(\d+)D\+(\d+)$/i);
+  if (match === null) return diceStr;
+
+  return `${match[1]}LH+${match[2]}`;
+};
+
 export const convert = async (id: string): Promise<string> => {
   const character = await fetchLhtrpgData(id);
 
@@ -92,17 +101,17 @@ ${items}
   ];
 
   const commands = `
-${character.abl_motion} 〈運動〉
-${character.abl_durability} 〈耐久〉
-${character.abl_dismantle} 〈解除〉
-${character.abl_operate} 〈操作〉
-${character.abl_sense} 〈知覚〉
-${character.abl_negotiate} 〈交渉〉
-${character.abl_knowledge} 〈知識〉
-${character.abl_analyze} 〈解析〉
-${character.abl_avoid} 〈回避〉
-${character.abl_resist} 〈抵抗〉
-${character.abl_hit} 〈命中〉
+${diceToBCDice(character.abl_motion)} 〈運動〉
+${diceToBCDice(character.abl_durability)} 〈耐久〉
+${diceToBCDice(character.abl_dismantle)} 〈解除〉
+${diceToBCDice(character.abl_operate)} 〈操作〉
+${diceToBCDice(character.abl_sense)} 〈知覚〉
+${diceToBCDice(character.abl_negotiate)} 〈交渉〉
+${diceToBCDice(character.abl_knowledge)} 〈知識〉
+${diceToBCDice(character.abl_analyze)} 〈解析〉
+${diceToBCDice(character.abl_avoid)} 〈回避〉
+${diceToBCDice(character.abl_resist)} 〈抵抗〉
+${diceToBCDice(character.abl_hit)} 〈命中〉
 `.split("\n").slice(1, -1).join("\n");
 
   const exportData: CharacterClipboardData = {
