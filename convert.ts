@@ -34,12 +34,19 @@ type Character = {
   owner: string | null;
 };
 
-// 2D+6 -> 2LH+6
+// 2D+6 / 6+2D -> 2LH+6
 const diceToBCDice = (diceStr: string) => {
   const match = diceStr.match(/^(\d+)D\+(\d+)$/i);
-  if (match === null) return diceStr;
+  if (match !== null) {
+    return `${match[1]}LH+${match[2]}`;
+  }
 
-  return `${match[1]}LH+${match[2]}`;
+  const match2 = diceStr.match(/^(\d+)\+(\d+)D$/i);
+  if (match2 !== null) {
+    return `${match2[2]}LH+${match2[1]}`;
+  }
+
+  return diceStr;
 };
 
 export const convert = async (id: string): Promise<string> => {
